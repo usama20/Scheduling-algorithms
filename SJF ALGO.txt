@@ -1,8 +1,8 @@
 # program implementing SJF ALGO
 
-#swap function
-
+#for sleeping function
 import time
+
 #arrays used
 
 ready_queue = []
