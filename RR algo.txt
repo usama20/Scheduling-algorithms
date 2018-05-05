@@ -1,0 +1,64 @@
+#program to implement round robbin
+
+import time
+
+#time slice
+def time_slice():
+    time.sleep(4)
+
+#arrays used
+
+ready_queue = []
+arrival = []
+burst =[]
+
+#input
+
+count_of_process = int(input("ENTER NO OF PROCESSES"))
+
+for i in range(count_of_process):
+    ready_queue.append(input("ENTER PROCESS NAME"))
+    arrival.append(int(input("ENTER ARRIVAL TIME")))
+    burst.append(int(input("ENTER BURST TIME")))
+
+print("EXECUTING ALL PROCESSES")
+#sorting
+for first in range(count_of_process-1):
+    min=first
+    for second in range (first+1,count_of_process):
+        if arrival[min]>arrival[second]:
+            min=second
+    arrival[first], arrival[min] = arrival[min], arrival[first]
+    burst[first], burst[min] = burst[min], burst[first]
+    ready_queue[first], ready_queue[min] = ready_queue[min], ready_queue[first]
+
+#EXECUTION
+j=0
+increment=1
+#for j in range(start, count_of_process, increment):
+while(j<count_of_process):
+    print("PROCESS ", ready_queue[j], "IN EXECUTION....")
+    time_slice()
+
+    if ((burst[j]-4)!= 0) and (burst[j]-4 >= 4):
+        ready_queue[0]=ready_queue[1]
+        arrival[0]=ready_queue[1]
+        burst[j]=burst[j]- 4
+        burst[0] = burst[1]
+        burst[count_of_process-1]=burst[j]
+        arrival[count_of_process - 1] = arrival[j]
+        ready_queue[count_of_process - 1] = ready_queue[j]
+
+        j=0
+
+    elif (burst[j] - 4) != 0 and (burst[j] - 4 > 0):
+        burst[j] = 4 - burst[j]
+        ready_queue[0] = ready_queue[1]
+        arrival[0] = ready_queue[1]
+        burst[0] = burst[1]
+        burst[count_of_process - 1] = burst[j]
+        arrival[count_of_process - 1] = arrival[j]
+        ready_queue[count_of_process - 1] = ready_queue[j]
+        j = 0
+    elif(burst[j]-4==0):
+        j = j+1
