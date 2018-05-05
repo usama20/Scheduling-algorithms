@@ -1,0 +1,55 @@
+# program implementing PRIORTY ALGO
+
+
+#for sleeping function
+import time
+
+#arrays used
+
+ready_queue = []
+arrival = []
+burst = []
+priorty = []
+
+#input
+
+count_of_process = int(input("ENTER NO OF PROCESSES"))
+
+for i in range(count_of_process):
+    ready_queue.append(input("ENTER PROCESS NAME"))
+    arrival.append(int(input("ENTER ARRIVAL TIME")))
+    burst.append(int(input("ENTER BURST TIME")))
+    priorty.append(int(input("ENTER PRIORITY # ")))
+print("EXECUTING ALL PROCESSES")
+#sorting
+for first in range(count_of_process-1):
+    min=first
+    for second in range (first+1,count_of_process):
+        if priorty[min]>priorty[second]:
+            min=second
+    arrival[first], arrival[min] = arrival[min], arrival[first]
+    burst[first], burst[min] = burst[min], burst[first]
+    ready_queue[first], ready_queue[min] = ready_queue[min], ready_queue[first]
+    priorty[first], priorty[min] = priorty[min], priorty[first]
+#EXECUTION
+
+for j in range(count_of_process):
+    print("PROCESS ", ready_queue[j], "IN EXECUTION....")
+    time.sleep(burst[j])
+print('ALL PROCESSES EXECUTED....')
+avg_waiting = 0
+comp_burst = burst[0]
+for k in range(count_of_process):
+    if k == 0:
+        avg_waiting = 0
+    else:
+        avg_waiting = avg_waiting +(comp_burst-arrival[k])
+        comp_burst += burst[k]
+avgg = avg_waiting/count_of_process
+
+#output
+print('PROCESS   ', 'B.T   ', 'ARRIVAL  ', 'PRIORTY ')
+for s in range(count_of_process):
+    print(ready_queue[s], '        ', burst[s], '        ', arrival[s], '        ', priorty[s])
+
+print('AVERAGE WAITING TIME =', avgg)
